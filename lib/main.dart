@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         brightness: Brightness.light,
       ),
-      home: const landingpage(),
+      home: const Signuppage(),
       debugShowCheckedModeBanner: false,
     );
   }

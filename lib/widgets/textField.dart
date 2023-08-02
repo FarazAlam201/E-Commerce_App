@@ -1,37 +1,60 @@
 import 'package:flutter/material.dart';
 
-class ShowTextField extends StatelessWidget {
+class ShowTextField extends StatefulWidget {
   final String textHint;
-  final bool hiddenData;
+  bool hiddenData;
   final IconButton? suffixIcon;
+  final TextEditingController? controller;
   final TextInputAction moveToNextTextField;
-  final TextEditingController _controller = TextEditingController();
 
-  ShowTextField(
-      {super.key,
-      required this.textHint,
-      this.hiddenData = false,
-      this.suffixIcon,
-      this.moveToNextTextField = TextInputAction.next});
+  ShowTextField({
+    super.key,
+    required this.textHint,
+    this.controller,
+    this.hiddenData = false,
+    this.suffixIcon,
+    this.moveToNextTextField = TextInputAction.next,
+  });
 
+  @override
+  State<ShowTextField> createState() => _ShowTextFieldState();
+}
+
+class _ShowTextFieldState extends State<ShowTextField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      obscureText: hiddenData,
-      controller: _controller,
-      textInputAction: moveToNextTextField,
+      obscureText: widget.hiddenData,
+      controller: widget.controller,
+      textInputAction: widget.moveToNextTextField,
       style: const TextStyle(
-          fontFamily: 'Metropolis', fontSize: 14, color: Color(0xffF5F5F5)),
+        fontFamily: 'Metropolis',
+        fontSize: 14,
+        color: Color(0xffF5F5F5),
+      ),
       cursorColor: const Color(0xffF5F5F5),
       decoration: InputDecoration(
-        labelText: textHint,
-        suffixIcon: suffixIcon,
+        labelText: widget.textHint,
+        suffixIcon: widget.textHint == 'Password'
+            ? IconButton(
+                onPressed: () {
+                  setState(() {
+                    widget.hiddenData = !widget.hiddenData;
+                  });
+                },
+                icon: Icon(
+                  widget.hiddenData
+                      ? Icons.visibility_off_rounded
+                      : Icons.visibility_rounded,
+                  color: const Color(0xFFABB4BD),
+                ))
+            : null,
         labelStyle: const TextStyle(
           color: Color(0xFFABB4BD),
         ),
         filled: true,
         fillColor: Color(0xff2A2C36),
-        hintText: textHint,
+        hintText: widget.textHint,
         hintStyle: const TextStyle(
           color: Color(0xFFABB4BD),
           fontSize: 14,
