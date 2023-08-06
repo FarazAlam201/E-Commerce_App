@@ -1,9 +1,14 @@
+import 'dart:convert';
+
+import 'package:e_commerce_app/constants/colors.dart';
 import 'package:e_commerce_app/screens/forgotpasspage.dart';
+import 'package:e_commerce_app/screens/visualsearch.dart';
 import 'package:e_commerce_app/widgets/appbar.dart';
 import 'package:e_commerce_app/widgets/assetButton.dart';
 import 'package:e_commerce_app/widgets/customButton.dart';
 import 'package:e_commerce_app/widgets/textField.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class Loginpage extends StatefulWidget {
   const Loginpage({super.key});
@@ -13,8 +18,8 @@ class Loginpage extends StatefulWidget {
 }
 
 class _LoginpageState extends State<Loginpage> {
-  final TextEditingController _emailcontroller = TextEditingController();
-  final TextEditingController _passwordcontroller = TextEditingController();
+  TextEditingController emailcontroller = TextEditingController();
+  TextEditingController passwordcontroller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,29 +31,21 @@ class _LoginpageState extends State<Loginpage> {
           Navigator.pop(context);
         },
       ),
-      backgroundColor: Color(0xFF1E1F28),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
-              padding: EdgeInsets.only(top: 18, left: 14),
-              child: Text(
-                'Login',
-                style: TextStyle(
-                  color: Color(0xFFF6F6F6),
-                  fontSize: 34,
-                  fontFamily: 'Metropolis',
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
+            Padding(
+              padding: const EdgeInsets.only(top: 18, left: 14),
+              child: Text('Login',
+                  style: Theme.of(context).textTheme.displayLarge),
             ),
             Padding(
                 padding: const EdgeInsets.only(top: 73, left: 16, right: 16),
                 child: ShowTextField(
                   textHint: 'Email',
-                  controller: _emailcontroller,
+                  controller: emailcontroller,
                 )),
             Padding(
               padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
@@ -56,17 +53,21 @@ class _LoginpageState extends State<Loginpage> {
                 textHint: 'Password',
                 moveToNextTextField: TextInputAction.done,
                 hiddenData: true,
-                controller: _passwordcontroller,
+                controller: passwordcontroller,
               ),
             ),
             Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Padding(
-                      padding: EdgeInsets.only(top: 16, right: 4, bottom: 28),
+                  Padding(
+                      padding:
+                          const EdgeInsets.only(top: 16, right: 4, bottom: 28),
                       child: Text("Forgot your password?",
-                          style: TextStyle(color: Color(0xffF6F6F6)))),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(color: white6))),
                   Padding(
                     padding: const EdgeInsets.only(right: 16),
                     child: Center(
@@ -80,42 +81,37 @@ class _LoginpageState extends State<Loginpage> {
                   )
                 ]),
             Padding(
-              padding: EdgeInsets.only(top: 0, right: 16, left: 16),
+              padding: const EdgeInsets.only(right: 16, left: 16),
               child: CustomButton(
                 text: "LOGIN",
-                callback: () {},
+                callback: () {
+                  login(emailcontroller.text, passwordcontroller.text);
+                },
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(top: 194, bottom: 12),
+            Padding(
+              padding: const EdgeInsets.only(top: 194, bottom: 12),
               child: Center(
-                child: Text(
-                  "Or login with social account",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Color(0xFFF6F6F6),
-                    fontSize: 14,
-                    fontFamily: 'Metropolis',
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+                child: Text("Or login with social account",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall!
+                        .copyWith(color: white6)),
               ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                InkWell(
-                    onTap: () {},
-                    borderRadius: BorderRadius.circular(24),
-                    child: AssetButton(
-                      imgpath: 'assets/images/google.png',
-                      callback: () {},
-                    )),
+                AssetButton(
+                  imgpath: 'google',
+                  callback: () {},
+                ),
                 Container(
                   width: 16,
                 ),
                 AssetButton(
-                  imgpath: 'assets/images/facebook.png',
+                  imgpath: 'facebook',
                   callback: () {},
                 )
               ],
@@ -126,8 +122,32 @@ class _LoginpageState extends State<Loginpage> {
     );
   }
 
+  void login(String email, password) async {
+    http.Response response = await http.put(
+        Uri.parse("https://ecommerce.salmanbediya.com/users/login"),
+        body: {'email': email, 'password': password});
+    var jsonData = jsonDecode(response.body);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print(jsonData['message']);
+      setState(() {
+        toVisualSearch();
+      });
+    } else {
+      print("${emailcontroller.text} ${passwordcontroller.text}");
+      print(jsonData['error']);
+    }
+  }
+
   void toForgotPassword(BuildContext context) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => ForgotPasswordPage()));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const ForgotPasswordPage()));
+  }
+
+  void toVisualSearch() {
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (BuildContext context) => VisualSearch()),
+      ModalRoute.withName(''),
+    );
   }
 }

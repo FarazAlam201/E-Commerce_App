@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class AssetButton extends StatelessWidget {
@@ -13,12 +14,12 @@ class AssetButton extends StatelessWidget {
         width: 92,
         height: 64,
         decoration: ShapeDecoration(
-          color: Colors.white,
+          color: white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(24),
           ),
         ),
-        child: Center(child: Image.asset(imgpath)),
+        child: Center(child: Image.asset('assets/images/$imgpath.png')),
       ),
     );
   }

@@ -1,8 +1,12 @@
+import 'dart:convert';
+
+import 'package:e_commerce_app/constants/colors.dart';
 import 'package:e_commerce_app/screens/loginpage.dart';
 import 'package:e_commerce_app/widgets/appbar.dart';
 import 'package:e_commerce_app/widgets/assetButton.dart';
 import 'package:e_commerce_app/widgets/customButton.dart';
 import 'package:e_commerce_app/widgets/textField.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 class Signuppage extends StatefulWidget {
@@ -13,9 +17,9 @@ class Signuppage extends StatefulWidget {
 }
 
 class _SignuppageState extends State<Signuppage> {
-  final TextEditingController _namecontroller = TextEditingController();
-  final TextEditingController _emailcontroller = TextEditingController();
-  final TextEditingController _passwordcontroller = TextEditingController();
+  TextEditingController namecontroller = TextEditingController();
+  TextEditingController emailcontroller = TextEditingController();
+  TextEditingController passwordcontroller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,81 +28,75 @@ class _SignuppageState extends State<Signuppage> {
         leadingIcon: Icons.arrow_back_ios_new_rounded,
         callback: () {},
       ),
-      backgroundColor: Color(0xff1E1F28),
       body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
-                padding: EdgeInsets.only(top: 18, left: 14, bottom: 73),
-                child: Text("Sign up",
-                    style: TextStyle(
-                        color: Color(0xFFF6F6F6),
-                        fontSize: 34,
-                        fontFamily: 'Metropolis',
-                        fontWeight: FontWeight.w700))),
             Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.only(top: 18, left: 14, bottom: 73),
+                child: Text("Sign up",
+                    style: Theme.of(context).textTheme.displayLarge)),
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: ShowTextField(
                   textHint: "Name",
-                  controller: _namecontroller,
+                  controller: namecontroller,
                 )),
             Padding(
-                padding: EdgeInsets.only(top: 8, left: 16, right: 16),
+                padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
                 child: ShowTextField(
                   textHint: "Email",
-                  controller: _emailcontroller,
+                  controller: emailcontroller,
                 )),
             Padding(
-              padding: EdgeInsets.only(top: 8, left: 16, right: 16),
+              padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
               child: ShowTextField(
                 textHint: "Password",
                 hiddenData: true,
                 moveToNextTextField: TextInputAction.done,
-                controller: _passwordcontroller,
+                controller: passwordcontroller,
               ),
             ),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Padding(
-                      padding: EdgeInsets.only(top: 16, right: 4, bottom: 28),
-                      child: Text("Already have an account?",
-                          style: TextStyle(color: Color(0xffF6F6F6)))),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 16),
-                    child: Center(
-                      child: IconButton(
-                        onPressed: () {
-                          toLoginPage(context);
-                        },
-                        icon: Image.asset('assets/images/arrow_right.png'),
-                      ),
-                    ),
-                  )
-                ]),
-            Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: CustomButton(
-                  text: "SIGN UP",
-                  callback: () {},
-                )),
-            const Padding(
-              padding:
-                  EdgeInsets.only(top: 126, bottom: 12, left: 85, right: 85),
-              child: Center(
-                child: Text(
-                  "Or sign up with social account",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Color(0xFFF6F6F6),
-                    fontSize: 14,
-                    fontFamily: 'Metropolis',
-                    fontWeight: FontWeight.w500,
+            Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+              Padding(
+                  padding: const EdgeInsets.only(top: 16, right: 4, bottom: 28),
+                  child: Text("Already have an account?",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall!
+                          .copyWith(color: white6))),
+              Padding(
+                padding: const EdgeInsets.only(right: 16),
+                child: Center(
+                  child: IconButton(
+                    onPressed: () {
+                      toLoginPage(context);
+                    },
+                    icon: Image.asset('assets/images/arrow_right.png'),
                   ),
                 ),
+              )
+            ]),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: CustomButton(
+                text: "SIGN UP",
+                callback: () {
+                  signup(namecontroller.text, emailcontroller.text,
+                      emailcontroller.text);
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                  top: 126, bottom: 12, left: 85, right: 85),
+              child: Center(
+                child: Text("Or sign up with social account",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall!
+                        .copyWith(color: white6)),
               ),
             ),
             Row(
@@ -108,7 +106,7 @@ class _SignuppageState extends State<Signuppage> {
                     onTap: () {},
                     borderRadius: BorderRadius.circular(24),
                     child: AssetButton(
-                      imgpath: 'assets/images/google.png',
+                      imgpath: 'google',
                       callback: () {},
                     )),
                 Container(
@@ -118,7 +116,7 @@ class _SignuppageState extends State<Signuppage> {
                     onTap: () {},
                     borderRadius: BorderRadius.circular(24),
                     child: AssetButton(
-                      imgpath: 'assets/images/facebook.png',
+                      imgpath: 'facebook',
                       callback: () {},
                     ))
               ],
@@ -127,6 +125,28 @@ class _SignuppageState extends State<Signuppage> {
         ),
       ),
     );
+  }
+
+  void signup(String name, String email, String password) async {
+    http.Response response = await http.post(
+        Uri.parse("https://ecommerce.salmanbediya.com/users/register"),
+        body: {'name': name, 'email': email, 'password': password});
+    var jsonData = jsonDecode(response.body);
+    if (response.statusCode == 201) {
+      print(jsonData['message']);
+      namecontroller.clear();
+      emailcontroller.clear();
+      passwordcontroller.clear();
+      //print('Success');
+    } else if (response.statusCode == 400) {
+      jsonData['email'];
+      print(response.body);
+      print(response.statusCode);
+      emailcontroller.clear();
+      passwordcontroller.clear();
+    } else {
+      print('please check your internet connection');
+    }
   }
 
   void toLoginPage(BuildContext context) {
