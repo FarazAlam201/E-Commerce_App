@@ -1,5 +1,4 @@
 import 'package:e_commerce_app/constants/colors.dart';
-import 'package:e_commerce_app/screens/settings.dart';
 import 'package:e_commerce_app/screens/signuppage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -74,7 +73,7 @@ class MyApp extends StatelessWidget {
             selectedItemColor: redButton,
             unselectedItemColor: grey1,
           )),
-      home: const Settings(),
+      home: const Signuppage(),
       debugShowCheckedModeBanner: false,
     );
   }

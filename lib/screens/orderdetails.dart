@@ -179,12 +179,13 @@ class _OrderDetailsState extends State<OrderDetails> {
                           ]),
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(children: [
                           _showkeyText("Units: "),
                           _showvalueText("1")
                         ]),
-                        const SizedBox(width: 160),
+                        const SizedBox(width: 153),
                         Text("51\$",
                             style: Theme.of(context)
                                 .textTheme

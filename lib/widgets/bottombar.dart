@@ -1,7 +1,7 @@
 import 'package:e_commerce_app/screens/bagpage.dart';
 import 'package:e_commerce_app/screens/favoritespage.dart';
 import 'package:e_commerce_app/screens/homepage.dart';
-//import 'package:e_commerce_app/screens/profilepage.dart';
+import 'package:e_commerce_app/screens/profilepage.dart';
 import 'package:e_commerce_app/screens/shoppage.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +19,7 @@ class _ShowBottomBArState extends State<ShowBottomBAr> {
     const Shoppage(),
     const Bagpage(),
     const Favoritespage(),
-    // const Profilepage()
+    const Profilepage()
   ];
 
   @override

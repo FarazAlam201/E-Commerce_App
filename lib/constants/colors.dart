@@ -13,5 +13,6 @@ Color screenBgcolor = const Color(0xff1E1F28);
 Color bottomBarBgcolor = const Color(0xff1A1B20);
 Color errorColor = const Color(0xffFF2424);
 Color green = const Color(0xff55D85A);
+Color green2 = const Color(0xff55D75A);
 Color greycardInfo = const Color(0xff2A2C36);
 Color bottomSheetBgcolor = const Color(0xff1D1F27);
