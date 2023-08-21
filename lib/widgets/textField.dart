@@ -7,6 +7,8 @@ class ShowTextField extends StatefulWidget {
   final IconButton? suffixIcon;
   final TextEditingController? controller;
   final TextInputAction moveToNextTextField;
+  final Function(String)? validator;
+  final Function(String)? onFieldSubmitted;
 
   ShowTextField({
     super.key,
@@ -15,6 +17,8 @@ class ShowTextField extends StatefulWidget {
     this.hiddenData = false,
     this.suffixIcon,
     this.moveToNextTextField = TextInputAction.next,
+    this.validator,
+    this.onFieldSubmitted,
   });
 
   @override
@@ -24,12 +28,20 @@ class ShowTextField extends StatefulWidget {
 class _ShowTextFieldState extends State<ShowTextField> {
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       obscureText: widget.hiddenData,
       controller: widget.controller,
       textInputAction: widget.moveToNextTextField,
       style: Theme.of(context).textTheme.bodySmall,
       cursorColor: white5,
+      onFieldSubmitted: widget.onFieldSubmitted,
+      validator: (value) {
+        if (widget.validator != null) {
+          return widget.validator!(value!);
+        } else {
+          return null;
+        }
+      },
       decoration: InputDecoration(
         labelText: widget.textHint,
         suffixIcon: widget.textHint == 'Password'
@@ -45,7 +57,11 @@ class _ShowTextFieldState extends State<ShowTextField> {
                       : Icons.visibility_rounded,
                 ),
               )
-            : null,
+            : widget.textHint == 'Name'
+                ? widget.controller!.text.length > 3
+                    ? Image.asset('assets/images/check_mark.png')
+                    : null
+                : null,
         hintText: widget.textHint,
       ),
     );

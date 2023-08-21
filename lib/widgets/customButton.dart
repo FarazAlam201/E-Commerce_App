@@ -6,13 +6,17 @@ class CustomButton extends StatelessWidget {
   final Color btncolor;
   final Color? bordercolor;
   final Color? fontcolor;
-  final VoidCallback? callback;
+  final double btnheight;
+  final double btnwidth;
+  final VoidCallback callback;
   CustomButton({
     super.key,
     required this.text,
     required this.callback,
     this.bordercolor,
     this.fontcolor,
+    this.btnheight = 48,
+    this.btnwidth = double.infinity,
     Color? btncolor,
   }) : btncolor = btncolor ?? redButton;
 
@@ -21,8 +25,8 @@ class CustomButton extends StatelessWidget {
     return InkWell(
       onTap: callback,
       child: Container(
-          height: 48,
-          width: double.infinity,
+          height: btnheight,
+          width: btnwidth,
           decoration: BoxDecoration(
             border: Border.all(color: bordercolor ?? transparent, width: 2),
             color: btncolor,

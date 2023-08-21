@@ -6,8 +6,6 @@ class ShowAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String titleName;
   final IconData? actionIcon;
   final Color? iconColor;
-  final double? leadingIconSize;
-  final double? actionIconSize;
   final VoidCallback? callback;
 
   ShowAppBar({
@@ -15,8 +13,8 @@ class ShowAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.leadingIcon,
     this.titleName = '',
     this.actionIcon,
-    this.leadingIconSize = 24,
-    this.actionIconSize,
+    // this.leadingIconSize = 24,
+    //this.actionIconSize = 24,
     required this.callback,
     Color? iconColor,
   }) : iconColor = iconColor ?? white6;
@@ -32,21 +30,29 @@ class ShowAppBar extends StatelessWidget implements PreferredSizeWidget {
         children: [
           Text(
             titleName,
+            style:
+                Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 18),
           ),
         ],
       ),
-      leading: IconButton(
-        onPressed: callback,
-        icon: Icon(leadingIcon),
-        iconSize: leadingIconSize,
-        color: iconColor,
+      leading: Padding(
+        padding: const EdgeInsets.only(left: 9),
+        child: IconButton(
+          onPressed: callback,
+          icon: Icon(leadingIcon),
+          iconSize: 24,
+          color: iconColor,
+        ),
       ),
       actions: [
-        IconButton(
-          onPressed: callback,
-          icon: Icon(actionIcon),
-          iconSize: leadingIconSize,
-          color: iconColor,
+        Padding(
+          padding: const EdgeInsets.only(right: 11),
+          child: IconButton(
+            onPressed: callback,
+            icon: Icon(actionIcon),
+            iconSize: 24,
+            color: iconColor,
+          ),
         ),
       ],
     );
