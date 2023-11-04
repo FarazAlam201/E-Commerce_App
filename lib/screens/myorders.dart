@@ -1,6 +1,7 @@
-import 'package:e_commerce_app/constants/colors.dart';
-import 'package:e_commerce_app/screens/orderdetails.dart';
-import 'package:e_commerce_app/widgets/appbar.dart';
+import 'package:ecommerce_app/constants/colors.dart';
+import 'package:ecommerce_app/screens/orderdetails.dart';
+import 'package:ecommerce_app/widgets/general/appbar.dart';
+import 'package:ecommerce_app/widgets/general/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -15,13 +16,7 @@ class _MyOrdersState extends State<MyOrders> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: ShowAppBar(
-        callback: () {
-          Navigator.pop(context);
-        },
-        leadingIcon: Icons.arrow_back_ios_new_rounded,
-        actionIcon: Icons.search,
-      ),
+      appBar: MyAppbar().appbarwithback(context, "", false),
       body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Padding(
           padding: const EdgeInsets.only(top: 18, left: 14, bottom: 24),
@@ -86,131 +81,82 @@ class _MyOrdersState extends State<MyOrders> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 24),
       child: Container(
-        width: 343,
-        height: 164,
+        width: double.infinity,
+        padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8), color: greyLightTextField),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 19, left: 19),
-              child: Row(
-                children: [
-                  Text(
-                    "Order №1947034",
-                    style: GoogleFonts.metrophobic(fontSize: 16, color: white6),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 97),
-                    child: Text(
-                      "05-12-2019",
-                      style: GoogleFonts.metrophobic(
-                          color: greyHintText, fontSize: 14),
-                    ),
-                  )
-                ],
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Order №1947034",
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                Text(
+                  "05-12-2019",
+                  style: Theme.of(context).textTheme.bodySmall,
+                )
+              ],
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 15, bottom: 4, left: 18),
-              child: Row(
-                children: [
-                  Text(
-                    "Tracking number:",
-                    style: GoogleFonts.metrophobic(
-                        fontSize: 14, color: greyHintText),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 4),
-                    child: Text(
-                      "IW3475453455",
-                      style: GoogleFonts.metrophobic(
-                          fontSize: 14,
-                          color: white6,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  )
-                ],
-              ),
+            RichText(
+                text: TextSpan(
+                    text: "Tracking number:",
+                    style: Theme.of(context).textTheme.bodySmall,
+                    children: [
+                  TextSpan(
+                      text: "\t\t\t\tIW3475453455",
+                      style: Theme.of(context).textTheme.labelSmall)
+                ])),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                RichText(
+                    text: TextSpan(
+                        text: "Quantity:",
+                        style: Theme.of(context).textTheme.bodySmall,
+                        children: [
+                      TextSpan(
+                          text: "\t\t\t\t3",
+                          style: Theme.of(context).textTheme.labelSmall)
+                    ])),
+                RichText(
+                    text: TextSpan(
+                        text: "Total Amount:",
+                        style: Theme.of(context).textTheme.bodySmall,
+                        children: [
+                      TextSpan(
+                          text: "\t\t\t\t112\$",
+                          style: Theme.of(context).textTheme.labelSmall)
+                    ])),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 19),
-              child: Row(
-                children: [
-                  Text(
-                    "Quantity:",
-                    style: GoogleFonts.metrophobic(
-                        fontSize: 14,
-                        color: greyHintText,
-                        fontWeight: FontWeight.w400),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 11),
-                    child: Text(
-                      "3",
-                      style: GoogleFonts.metrophobic(
-                          color: white6,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 86),
-                    child: Text("Total Amount:",
-                        style: GoogleFonts.metrophobic(
-                            fontSize: 14,
-                            color: greyHintText,
-                            fontWeight: FontWeight.w400)),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 11),
-                    child: Text(
-                      "112",
-                      style: GoogleFonts.metrophobic(
-                          color: white6,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 19, top: 17),
-              child: Row(
-                children: [
-                  InkWell(
-                    onTap: () {
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomButton(
+                    topMargin: 14,
+                    width: 98,
+                    height: 36,
+                    btnName: "Details",
+                    borderColor: white6,
+                    borderRadius: 1.5,
+                    fontColor: white6,
+                    buttonBackgroundColor: Colors.transparent,
+                    callback: () {
                       _toOrderDetailsPage(context);
-                    },
-                    child: Container(
-                      width: 98,
-                      height: 36,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(24),
-                          border: Border.all(width: 0.50, color: white6)),
-                      child: Center(
-                          child: Text(
-                        "Details",
-                        style: GoogleFonts.metrophobic(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: white6),
-                      )),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 137),
-                    child: Text(
-                      "Delivered",
-                      style: GoogleFonts.metrophobic(
-                          color: green2,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  )
-                ],
-              ),
+                    }),
+                Text(
+                  "Delivered",
+                  style: Theme.of(context)
+                      .textTheme
+                      .labelMedium!
+                      .copyWith(color: greenprofile),
+                )
+              ],
             )
           ],
         ),

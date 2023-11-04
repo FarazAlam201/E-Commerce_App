@@ -1,6 +1,7 @@
-import 'package:e_commerce_app/constants/colors.dart';
-import 'package:e_commerce_app/widgets/appbar.dart';
-import 'package:e_commerce_app/widgets/customButton.dart';
+import 'package:ecommerce_app/constants/colors.dart';
+import 'package:ecommerce_app/widgets/general/appbar.dart';
+
+import 'package:ecommerce_app/widgets/profilewidgets/orderdetailsbar.dart';
 import 'package:flutter/material.dart';
 
 class OrderDetails extends StatefulWidget {
@@ -13,15 +14,9 @@ class OrderDetails extends StatefulWidget {
 class _OrderDetailsState extends State<OrderDetails> {
   @override
   Widget build(BuildContext context) {
+   
     return Scaffold(
-      appBar: ShowAppBar(
-        leadingIcon: Icons.arrow_back_ios_new_rounded,
-        callback: () {
-          Navigator.pop(context);
-        },
-        titleName: "Order Details",
-        actionIcon: Icons.search,
-      ),
+      appBar: MyAppbar().appbarwithback(context, "Order Details", false),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -35,13 +30,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                   children: [
                     Text("Order №1947034",
                         style: Theme.of(context).textTheme.bodyMedium),
-                    Text(
-                      "05-12-2019",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall!
-                          .copyWith(color: grey1),
-                    ),
+                    Text("05-12-2019",
+                        style: Theme.of(context).textTheme.bodySmall),
                   ],
                 ),
               ),
@@ -50,13 +40,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                 children: [
                   Row(
                     children: [
-                      Text(
-                        "Tracking number:",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall!
-                            .copyWith(color: grey1),
-                      ),
+                      Text("Tracking number:",
+                          style: Theme.of(context).textTheme.bodySmall),
                       const SizedBox(width: 8),
                       Text(
                         "IW3475453455",
@@ -68,10 +53,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                     ],
                   ),
                   Text("Delivered",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall!
-                          .copyWith(color: green, fontWeight: FontWeight.w500)),
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: greenprofile, fontWeight: FontWeight.w500)),
                 ],
               ),
               Padding(
@@ -84,9 +67,10 @@ class _OrderDetailsState extends State<OrderDetails> {
                       .copyWith(color: white6, fontWeight: FontWeight.w500),
                 ),
               ),
-              _orderDetails("assets/sliderimages/img1.jpeg"),
-              _orderDetails("assets/sliderimages/img1.jpeg"),
-              _orderDetails("assets/sliderimages/img1.jpeg"),
+              OrderDetailsBar(imagPath: "assets/h6.jpeg"),
+              OrderDetailsBar(imagPath: "assets/h6.jpeg"),
+              OrderDetailsBar(imagPath: "assets/h6.jpeg"),
+              OrderDetailsBar(imagPath: "assets/h6.jpeg"),
               Padding(
                 padding: const EdgeInsets.only(top: 10, bottom: 15),
                 child: Text(
@@ -103,28 +87,45 @@ class _OrderDetailsState extends State<OrderDetails> {
               _orderInfo("Delivery method:", "FedEx, 3 days, 15\$"),
               _orderInfo("Discount:", "10%, Personal promo code"),
               _orderInfo("Total Amount:", "133\$"),
-              Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 37),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CustomButton(
-                      text: "Reorder",
-                      callback: () {},
-                      fontcolor: white6,
-                      btnwidth: 160,
-                      btnheight: 36,
-                      btncolor: transparent,
-                      bordercolor: white6,
-                    ),
-                    CustomButton(
-                        text: "Leave feedback",
-                        callback: () {},
-                        btnwidth: 160,
-                        btnheight: 36)
-                  ],
-                ),
-              )
+
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 10, bottom: 37),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       CustomButton(
+              //           topMargin: 14,
+              //           width: 160,
+              //           height: 36,
+              //           btnName: "Reorder",
+              //           borderColor: white6,
+              //           borderRadius: 1.5,
+              //           fontColor: white6,
+              //           buttonBackgroundColor: Colors.transparent,
+              //           callback: () {}),
+              //       CustomButton(
+              //         btnName: "Leave feedback",
+              //         width: 160,
+              //         height: 36,
+              //       )
+
+              //       // CustomButton(
+              //       //   text: "Reorder",
+              //       //   callback: () {},
+              //       //   fontcolor: white6,
+              //       //   btnwidth: 160,
+              //       //   btnheight: 36,
+              //       //   btncolor: transparent,
+              //       //   bordercolor: white6,
+              //       // ),
+              //       // CustomButton(
+              //       //     text: "Leave feedback",
+              //       //     callback: () {},
+              //       //     btnwidth: 160,
+              //       //     btnheight: 36)
+              //     ],
+              //   ),
+              // )
             ],
           ),
         ),
@@ -139,7 +140,8 @@ class _OrderDetailsState extends State<OrderDetails> {
           width: double.infinity,
           height: 104,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8), color: greycardInfo),
+              borderRadius: BorderRadius.circular(8),
+              color: greyLightTextField),
           child: Row(
             children: [
               Container(

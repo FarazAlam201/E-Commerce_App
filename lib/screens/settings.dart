@@ -1,6 +1,6 @@
-import 'package:e_commerce_app/constants/colors.dart';
-import 'package:e_commerce_app/widgets/appbar.dart';
-import 'package:e_commerce_app/widgets/customButton.dart';
+import 'package:ecommerce_app/constants/colors.dart';
+import 'package:ecommerce_app/widgets/general/appbar.dart';
+import 'package:ecommerce_app/widgets/general/buttons.dart';
 import 'package:flutter/material.dart';
 
 class Settings extends StatefulWidget {
@@ -18,13 +18,16 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: ShowAppBar(
-        leadingIcon: Icons.arrow_back_ios_new_rounded,
-        callback: () {
-          Navigator.pop(context);
-        },
-        actionIcon: Icons.search,
-      ),
+      appBar: MyAppbar(bgColor: Colors.transparent)
+          .appbarwithback(context, "", false),
+
+      // ShowAppBar(
+      //   leadingIcon: Icons.arrow_back_ios_new_rounded,
+      //   callback: () {
+      //     Navigator.pop(context);
+      //   },
+      //   actionIcon: Icons.search,
+      // ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,7 +67,7 @@ class _SettingsState extends State<Settings> {
                                     .textTheme
                                     .bodySmall!
                                     .copyWith(
-                                        color: grey1,
+                                        color: greyLabelText,
                                         fontWeight: FontWeight.w500))),
                       ],
                     ),
@@ -96,12 +99,12 @@ class _SettingsState extends State<Settings> {
   Widget _showTextField(
       BuildContext context, String hintText, bool hiddenData) {
     return TextFormField(
+      enabled: hintText == "Password" ? false : true,
       style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 14),
       cursorColor: white5,
       obscureText: hiddenData,
       decoration: InputDecoration(
         labelText: hintText,
-        hintText: hintText,
       ),
     );
   }
@@ -121,7 +124,7 @@ class _SettingsState extends State<Settings> {
             ),
             Switch(
               value: isSwitched,
-              activeColor: green,
+              activeColor: greenprofile,
               onChanged: (bool value) {
                 setState(() {
                   if (togglename == "Sales") {
@@ -145,62 +148,62 @@ class _SettingsState extends State<Settings> {
     showModalBottomSheet(
       elevation: 0,
       context: context,
-      shape: const RoundedRectangleBorder(
+      shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
         top: Radius.circular(34),
       )),
-      backgroundColor: bottomSheetBgcolor,
+      backgroundColor: greyScaffoldbf,
       isScrollControlled: true,
       builder: (context) {
-        return Container(
-          padding: EdgeInsets.fromLTRB(
-              16, 14, 16, MediaQuery.of(context).viewInsets.bottom),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                  width: 60,
-                  height: 6,
-                  decoration: BoxDecoration(
-                    color: grey1,
-                    borderRadius: BorderRadius.circular(3),
-                  )),
-              Padding(
-                  padding: const EdgeInsets.only(top: 16, bottom: 18),
-                  child: Text(
-                    "Password Change",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(fontSize: 18),
-                  )),
-              _showTextField(context, 'Old Password', false),
-              Padding(
-                padding: const EdgeInsets.only(top: 14, bottom: 18),
-                child: Container(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        "Forgot Password?",
-                        style: Theme.of(context)
-                            .textTheme
-                            .displaySmall!
-                            .copyWith(
-                                fontSize: 14, fontWeight: FontWeight.w500),
-                      )),
+        return SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(
+                16, 14, 16, MediaQuery.of(context).viewInsets.bottom),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                    width: 60,
+                    height: 6,
+                    decoration: BoxDecoration(
+                      color: greyLabelText,
+                      borderRadius: BorderRadius.circular(3),
+                    )),
+                Padding(
+                    padding: const EdgeInsets.only(top: 16, bottom: 18),
+                    child: Text(
+                      "Password Change",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(fontSize: 18),
+                    )),
+                _showTextField(context, 'Old Password', false),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8, bottom: 8),
+                  child: Container(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          "Forgot Password?",
+                          style: Theme.of(context).textTheme.bodySmall,
+                        )),
+                  ),
                 ),
-              ),
-              _showTextField(context, "New Password", true),
-              Padding(
-                padding: const EdgeInsets.only(top: 24, bottom: 32),
-                child: _showTextField(context, 'Repeat New Password', true),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 33),
-                child: CustomButton(text: "SAVE PASSWORD", callback: () {}),
-              )
-            ],
+                _showTextField(context, "New Password", true),
+                Padding(
+                  padding: const EdgeInsets.only(top: 24, bottom: 32),
+                  child: _showTextField(context, 'Repeat New Password', true),
+                ),
+                CustomButton(
+                  btnName: "SAVE PASSWORD",
+                  // leftMargin: 16,
+                  // rightMargin: 16,
+                  topMargin: 5,
+                )
+              ],
+            ),
           ),
         );
       },
